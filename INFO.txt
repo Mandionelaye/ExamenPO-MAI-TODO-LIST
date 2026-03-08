@@ -1,0 +1,74 @@
+================================================================================
+                    APPLICATION GESTION DE TÂCHES (TODO-LIST)
+                              Projet Master
+
+================================================================================
+                          Seydina Mandione Mbaye
+                              ENO:Guédiawaye
+                              INE: N00498520201
+                              Tel: 770938816
+================================================================================
+
+
+CONFIGURATION BASE DE DONNÉES
+-----------------------------
+1. Créer une base de données MySQL nommée "todo_db" :
+   CREATE DATABASE todo_db CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+
+2. Modifier le fichier src/main/resources/application.properties :
+   - spring.datasource.username=votre_utilisateur_mysql
+   - spring.datasource.password=votre_mot_de_passe_mysql
+
+LANCEMENT DE L'APPLICATION
+--------------------------
+Compiler et exécuter :
+   mvn spring-boot:run
+
+ACCÈS À L'APPLICATION
+---------------------
+- Interface Web : http://localhost:8080
+- API REST Base : http://localhost:8080/api
+- Documentation Swagger UI : http://localhost:8080/swagger-ui/index.html
+- Documentation OpenAPI JSON : http://localhost:8080/v3/api-docs
+
+UTILISATION
+-----------
+1. Inscription : Créer un compte via /register
+2. Connexion : Se connecter via /login
+3. Gestion des tâches :
+   - Créer une nouvelle tâche (Titre, Description, Statut, Date d'échéance)
+   - Visualiser la liste des tâches
+   - Modifier une tâche existante
+   - Marquer une tâche comme terminée
+   - Supprimer une tâche
+
+API REST ENDPOINTS (Swagger)
+----------------------------
+GET    /api/tasks          - Lister toutes les tâches
+GET    /api/tasks/{id}     - Récupérer une tâche spécifique
+POST   /api/tasks          - Créer une nouvelle tâche
+PUT    /api/tasks/{id}     - Modifier une tâche complète
+PATCH  /api/tasks/{id}/status - Modifier le statut d'une tâche
+POST   /api/tasks/{id}/complete - Marquer comme terminée
+DELETE /api/tasks/{id}     - Supprimer une tâche
+
+ARCHITECTURE SOLID
+------------------
+- SRP : Chaque classe a une responsabilité unique
+- OCP : Extension via interfaces et abstraction
+- LSP : Substituabilité des implémentations de services
+- ISP : Interfaces spécifiques (UserService, TaskService)
+- DIP : Injection de dépendances via constructeurs
+
+SÉCURITÉ
+--------
+- Authentification Spring Security avec sessions
+- Mots de passe hashés avec BCrypt
+- Protection CSRF activée pour le web, désactivée pour l'API
+- Chaque utilisateur ne voit que ses propres tâches
+
+AUTEUR
+------
+Projet Master  - Projet Opérationnel
+Respect strict des principes SOLID et bonnes pratiques Spring Boot
+================================================================================

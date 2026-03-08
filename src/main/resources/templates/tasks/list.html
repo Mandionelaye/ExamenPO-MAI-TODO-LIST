@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Mes Tâches - Gestion de Tâches</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background: #f5f7fa;
+            min-height: 100vh;
+        }
+        .navbar {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .navbar h1 { font-size: 1.5rem; }
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            margin-left: 1.5rem;
+            font-weight: 500;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 1rem;
+        }
+        .header-actions {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+        .btn {
+            padding: 0.75rem 1.5rem;
+            border-radius: 6px;
+            text-decoration: none;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            border: none;
+            cursor: pointer;
+        }
+        .btn-primary {
+            background: #667eea;
+            color: white;
+        }
+        .btn-success {
+            background: #28a745;
+            color: white;
+        }
+        .btn-danger {
+            background: #dc3545;
+            color: white;
+        }
+        .btn-warning {
+            background: #ffc107;
+            color: #212529;
+        }
+        .alert {
+            padding: 1rem;
+            border-radius: 6px;
+            margin-bottom: 1rem;
+        }
+        .alert-success { background: #d4edda; color: #155724; }
+        .tasks-grid {
+            display: grid;
+            gap: 1rem;
+        }
+        .task-card {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .task-info h3 {
+            color: #333;
+            margin-bottom: 0.5rem;
+        }
+        .task-meta {
+            color: #666;
+            font-size: 0.9rem;
+            display: flex;
+            gap: 1rem;
+        }
+        .status-badge {
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 500;
+        }
+        .status-pending { background: #fff3cd; color: #856404; }
+        .status-in-progress { background: #cce5ff; color: #004085; }
+        .status-completed { background: #d4edda; color: #155724; }
+        .task-actions {
+            display: flex;
+            gap: 0.5rem;
+        }
+        .empty-state {
+            text-align: center;
+            padding: 3rem;
+            color: #666;
+        }
+        form { display: inline; }
+    </style>
+</head>
+<body>
+<nav class="navbar">
+    <h1>✅ Gestion de Tâches</h1>
+    <div class="nav-links">
+        <span th:text="${#authentication.name}">Utilisateur</span>
+        <a th:href="@{/logout}">Déconnexion</a>
+    </div>
+</nav>
+
+<div class="container">
+    <div class="header-actions">
+        <h2>Mes Tâches</h2>
+        <a th:href="@{/tasks/new}" class="btn btn-primary">+ Nouvelle Tâche</a>
+    </div>
+
+    <div th:if="${successMessage}" class="alert alert-success" th:text="${successMessage}"></div>
+
+    <div th:if="${#lists.isEmpty(tasks)}" class="empty-state">
+        <h3>Aucune tâche pour le moment</h3>
+        <p>Commencez par créer votre première tâche !</p>
+    </div>
+
+    <div class="tasks-grid" th:unless="${#lists.isEmpty(tasks)}">
+        <div class="task-card" th:each="task : ${tasks}">
+            <div class="task-info">
+                <h3 th:text="${task.title}">Titre de la tâche</h3>
+                <p th:text="${task.description}">Description</p>
+                <div class="task-meta">
+                    <span>📅 <span th:text="${task.dueDate}">Date</span></span>
+                    <span class="status-badge"
+                          th:classappend="'status-' + ${#strings.toLowerCase(#strings.replace(task.status, '_', '-'))}"
+                          th:text="${task.status}">Statut</span>
+                </div>
+            </div>
+            <div class="task-actions">
+                <form th:action="@{/tasks/{id}/complete(id=${task.id})}" method="post"
+                      th:if="${task.status.name() != 'COMPLETED'}">
+                    <button type="submit" class="btn btn-success">✓ Terminer</button>
+                </form>
+                <a th:href="@{/tasks/{id}/edit(id=${task.id})}" class="btn btn-warning">Modifier</a>
+                <form th:action="@{/tasks/{id}/delete(id=${task.id})}" method="post"
+                      onsubmit="return confirm('Confirmer la suppression ?');">
+                    <button type="submit" class="btn btn-danger">Supprimer</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

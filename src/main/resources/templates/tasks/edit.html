@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Modifier Tâche - Gestion de Tâches</title>
+    <style>
+        /* Mêmes styles que form.html */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background: #f5f7fa;
+            min-height: 100vh;
+        }
+        .navbar {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 1rem 2rem;
+        }
+        .container {
+            max-width: 600px;
+            margin: 2rem auto;
+            padding: 0 1rem;
+        }
+        .form-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        h2 { margin-bottom: 1.5rem; color: #333; }
+        .form-group { margin-bottom: 1.2rem; }
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: #555;
+            font-weight: 500;
+        }
+        input, textarea, select {
+            width: 100%;
+            padding: 0.8rem;
+            border: 2px solid #e0e0e0;
+            border-radius: 6px;
+            font-size: 1rem;
+        }
+        .actions {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+        .btn {
+            padding: 0.75rem 1.5rem;
+            border-radius: 6px;
+            text-decoration: none;
+            font-weight: 600;
+            border: none;
+            cursor: pointer;
+        }
+        .btn-primary { background: #ffc107; color: #212529; }
+        .btn-secondary { background: #6c757d; color: white; }
+    </style>
+</head>
+<body>
+<nav class="navbar">
+    <h1>✅ Gestion de Tâches</h1>
+</nav>
+
+<div class="container">
+    <div class="form-card">
+        <h2>✏️ Modifier la Tâche</h2>
+
+        <form th:action="@{/tasks/{id}(id=${task.id})}" method="post">
+            <div class="form-group">
+                <label for="title">Titre</label>
+                <input type="text" id="title" name="title" th:value="${task.title}" required maxlength="100">
+            </div>
+
+            <div class="form-group">
+                <label for="description">Description</label>
+                <textarea id="description" name="description" maxlength="500" th:text="${task.description}"></textarea>
+            </div>
+
+            <div class="form-group">
+                <label for="status">Statut</label>
+                <select id="status" name="status" required>
+                    <option th:each="s : ${statuses}"
+                            th:value="${s}"
+                            th:text="${s}"
+                            th:selected="${s == task.status}"></option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="dueDate">Date d'échéance</label>
+                <input type="date" id="dueDate" name="dueDate" th:value="${task.dueDate}">
+            </div>
+
+            <div class="actions">
+                <button type="submit" class="btn btn-primary">Mettre à jour</button>
+                <a th:href="@{/tasks}" class="btn btn-secondary">Annuler</a>
+            </div>
+        </form>
+    </div>
+</div>
+</body>
+</html>
