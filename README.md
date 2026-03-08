@@ -17,8 +17,8 @@ Il s'agit d'un projet de démonstration construit avec **Java** et **Spring Boot
 *   **Java** - Langage de programmation principal.
 *   **Spring Boot** - Framework pour la création de l'application web.
 *   **Maven** - Outil de gestion de dépendances et de construction du projet.
-*   **Thymeleaf** (probablement) - Moteur de template pour l'interface utilisateur côté serveur.
-*   **Base de données H2/MySQL** (à définir) - Pour le stockage persistant des tâches.
+*   **Thymeleaf** - Moteur de template pour l'interface utilisateur côté serveur.
+*   **Base de données MySQL** - Pour le stockage persistant des tâches.
 
 ## 🚀 Installation et Exécution
 
